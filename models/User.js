@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
     password: String,
     role: { type: String, enum: ['consumer', 'vendor', 'transporter'], required: true },
     Address: { type: String },
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+    cartList: Array
 });
 module.exports = mongoose.model('User', UserSchema);
