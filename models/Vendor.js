@@ -7,6 +7,8 @@ const VendorSchema = new mongoose.Schema({
     addhar_card:String,
     addhar_front_image:String,
     aadhar_back_image:String,
-    city:String
+    city:String,
+    status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' }
+
 });
 module.exports = mongoose.model('Vendor', VendorSchema);
