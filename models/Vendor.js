@@ -4,6 +4,7 @@ const VendorSchema = new mongoose.Schema({
     address: String,
     name: String,
     mobile_number: String,
+    password:String,
     addhar_card:String,
     addhar_front_image:String,
     aadhar_back_image:String,
