@@ -6,6 +6,7 @@ import Header from "./component/Header";
 import Sidebar from "./component/Sidebar";
 import User from "./pages/User";
 import Vendor from "./pages/Vendor";
+import VendorManagement from "./pages/VendorProductList";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -33,6 +34,7 @@ function App() {
           <Route path="/"element={<Layout> <Dashboard /></Layout>}/>
           <Route path="/users"element={<Layout> <User /></Layout>}/>
           <Route path="/vendors"element={<Layout> <Vendor /></Layout>}/>
+          <Route path="/vendorslist"element={<Layout> <VendorManagement /></Layout>}/>
         </Routes>
       </Router>
     </Context>

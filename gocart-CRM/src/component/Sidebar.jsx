@@ -9,6 +9,7 @@ import {
   FaUniversity,
   FaCog,
   FaSignOutAlt,
+  FaUserCircle,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -40,6 +41,13 @@ const Sidebar = () => {
         >
           <FaUniversity className="text-2xl" />
           <span className="text-sm mt-1">Vendors</span>
+        </li>
+        <li
+          onClick={() => navigate("/vendorslist")}
+          className="flex flex-col items-center cursor-pointer p-2 hover:text-blue-400 transition duration-300"
+        >
+          <FaUserCircle className="text-2xl" />
+          <span className="text-sm mt-1">Vendors ProductList</span>
         </li>
 
       </ul>

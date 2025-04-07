@@ -28,8 +28,8 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const product = new Product(req.body);
-    const newProduct = await product.save();
-    res.status(201).json({ data: newProduct });
+    await product.save();
+    res.status(201).json({ data: product });
   } catch (err) {
     console.log(err);
     res.status(500).send("Server error");
