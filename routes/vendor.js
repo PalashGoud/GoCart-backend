@@ -42,7 +42,8 @@ router.post("/login", async (req, res) => {
     const vendor = await Vendor.findOne({ mobile_number});
     if (!vendor){
       res.status(401).send("Invalid Mobile Number")
-    } 
+    }
+    console.log(vendor) 
     if(vendor.password != password){
       res.status(401).send("Invalid Password")
     }

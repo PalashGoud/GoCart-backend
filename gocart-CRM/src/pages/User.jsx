@@ -52,69 +52,69 @@ function UserManagement() {
   });
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-        <h1 className="text-2xl font-semibold text-gray-800">User Management</h1>
+    <div className="p-6 bg-[#161928] min-h-screen text-white">
+      <h1 className="text-3xl font-bold mb-4">User Management</h1>
 
-        <div className="flex gap-2">
-          <input
-            type="text"
-            placeholder="Search by name..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
-          />
-          <select
-            value={selectedRole}
-            onChange={(e) => setSelectedRole(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-          >
-            <option value="all">All Roles</option>
-            <option value="consumer">Consumer</option>
-            <option value="vendor">Vendor</option>
-            <option value="transporter">Transporter</option>
-          </select>
-        </div>
+      {/* Filters */}
+      <div className="flex flex-wrap gap-3 mb-4">
+        <input
+          type="text"
+          placeholder="Search by name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="p-2 border border-gray-300 rounded bg-[#1f2432] text-white placeholder:text-gray-400"
+        />
+        <select
+          value={selectedRole}
+          onChange={(e) => setSelectedRole(e.target.value)}
+          className="p-2 border border-gray-300 rounded bg-[#1f2432] text-white"
+        >
+          <option value="all">All Roles</option>
+          <option value="consumer">Consumer</option>
+          <option value="vendor">Vendor</option>
+          <option value="transporter">Transporter</option>
+        </select>
       </div>
 
-      <div className="overflow-x-auto bg-white shadow rounded">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-100">
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-[#26322d] rounded-lg shadow-lg">
+          <thead className="bg-[#19221E] text-left">
             <tr>
-              <th className="px-4 py-2 text-left">Name</th>
-              <th className="px-4 py-2 text-left">Email</th>
-              <th className="px-4 py-2 text-left">Role</th>
-              <th className="px-4 py-2 text-left">Address</th>
-              <th className="px-4 py-2 text-left">Created</th>
-              <th className="px-4 py-2 text-left">Actions</th>
+              <th className="py-3 px-4">Name</th>
+              <th className="py-3 px-4">Email</th>
+              <th className="py-3 px-4">Role</th>
+              <th className="py-3 px-4">Address</th>
+              <th className="py-3 px-4">Created</th>
+              <th className="py-3 px-4">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-[#446c5a]">
             {filteredUsers.length === 0 ? (
               <tr>
-                <td colSpan="6" className="text-center text-gray-500 py-8">No users found</td>
+                <td colSpan="6" className="text-center text-gray-400 py-8">No users found</td>
               </tr>
             ) : (
               filteredUsers.map(user => (
-                <tr key={user._id} className="border-t hover:bg-gray-50">
-                  <td className="px-4 py-2">
+                <tr key={user._id} className="hover:bg-[#1c232e]">
+                  <td className="py-2 px-4">
                     {editingUserId === user._id ? (
                       <input
                         value={editedUser.name}
                         onChange={(e) => setEditedUser({ ...editedUser, name: e.target.value })}
-                        className="border rounded px-2 py-1 w-full"
+                        className="bg-[#1f2432] border border-gray-500 text-white px-2 py-1 rounded w-full"
                       />
                     ) : (
                       user.name
                     )}
                   </td>
-                  <td className="px-4 py-2">{user.email}</td>
-                  <td className="px-4 py-2 capitalize">
+                  <td className="py-2 px-4">{user.email}</td>
+                  <td className="py-2 px-4 capitalize">
                     {editingUserId === user._id ? (
                       <select
                         value={editedUser.role}
                         onChange={(e) => setEditedUser({ ...editedUser, role: e.target.value })}
-                        className="border rounded px-2 py-1"
+                        className="bg-[#1f2432] border border-gray-500 text-white px-2 py-1 rounded"
                       >
                         <option value="consumer">Consumer</option>
                         <option value="vendor">Vendor</option>
@@ -124,37 +124,37 @@ function UserManagement() {
                       user.role
                     )}
                   </td>
-                  <td className="px-4 py-2">
+                  <td className="py-2 px-4">
                     {editingUserId === user._id ? (
                       <input
                         value={editedUser.Address}
                         onChange={(e) => setEditedUser({ ...editedUser, Address: e.target.value })}
-                        className="border rounded px-2 py-1 w-full"
+                        className="bg-[#1f2432] border border-gray-500 text-white px-2 py-1 rounded w-full"
                       />
                     ) : (
                       user.Address || '—'
                     )}
                   </td>
-                  <td className="px-4 py-2">{new Date(user.createdAt).toLocaleDateString()}</td>
-                  <td className="px-4 py-2 space-x-2">
+                  <td className="py-2 px-4">{new Date(user.createdAt).toLocaleDateString()}</td>
+                  <td className="py-2 px-4 space-x-2">
                     {editingUserId === user._id ? (
                       <button
                         onClick={() => handleUpdate(user._id)}
-                        className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs"
+                        className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
                       >
                         Save
                       </button>
                     ) : (
                       <button
                         onClick={() => handleEditClick(user)}
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs"
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
                       >
                         Edit
                       </button>
                     )}
                     <button
                       onClick={() => handleDelete(user._id)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs"
+                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
                     >
                       Delete
                     </button>
