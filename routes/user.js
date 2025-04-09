@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User");
+const Consumer = require("../models/Consumer");
 
 router.get("/", async (req, res) => {
   try {
-    const user = await User.find();
-    res.status(200).json({ data: user });
+    const consumer = await Consumer.find();
+    res.status(200).json({ data: consumer });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -14,11 +14,11 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    const consumer = await Consumer.findById(req.params.id);
+    if (!consumer) {
+      return res.status(404).json({ message: "Consumer not found" });
     }
-    res.status(200).json({ data: user });
+    res.status(200).json({ data: consumer });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -27,9 +27,9 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const user = new User(req.body);
-    const newUser = await user.save();
-    res.status(201).json({ data: newUser });
+    const consumer = new Consumer(req.body);
+    const newConsumer = await consumer.save();
+    res.status(201).json({ data: newConsumer });
   } catch (err) {
     console.log(err);
     res.status(500).send("Server error");
@@ -39,16 +39,16 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(
+    const updatedConsumer = await Consumer.findByIdAndUpdate(
       req.params.id,
       req.body,
     );
 
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
+    if (!updatedConsumer) {
+      return res.status(404).json({ message: "Consumer not found" });
     }
 
-    res.status(200).json({ data: updatedUser });
+    res.status(200).json({ data: updatedConsumer });
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
@@ -58,13 +58,13 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    const deletedConsumer = await Consumer.findByIdAndDelete(req.params.id);
     
-    if (!deletedUser) {
-      return res.status(404).json({ message: "User not found" });
+    if (!deletedConsumer) {
+      return res.status(404).json({ message: "Consumer not found" });
     }
 
-    res.status(200).json({ message: "User deleted successfully" });
+    res.status(200).json({ message: "Consumer deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
