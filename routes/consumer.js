@@ -36,6 +36,25 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.post("/login", async (req, res) => {
+  const { mobile_number, password } = req.body; 
+  try {
+    const consumer = await Consumer.findOne({ mobile_number});
+    if (!consumer){
+      res.status(401).send("Invalid Mobile Number")
+    }
+    
+    if(consumer.password != password){
+      res.status(401).send("Invalid Password")
+    }
+    res.status(200).json({ message:"Login successful", data: consumer});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+});
+
+
 
 router.put("/:id", async (req, res) => {
   try {
