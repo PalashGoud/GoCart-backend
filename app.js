@@ -8,7 +8,7 @@ const product = require('./routes/product')
 const order = require('./routes/order')
 const transportbooking = require('./routes/transportbooking')
 const payment = require('./routes/payment')
-const otp= require('./routes/otproutes')
+
 
 const app= express()
 const port = 5001
@@ -20,7 +20,7 @@ app.use('/products',product)
 app.use('/orders',order)
 app.use('/transportbookings',transportbooking)
 app.use('/payment',payment),
-app.use('/otp',otp)
+
 
 
 app.listen(port,()=>{

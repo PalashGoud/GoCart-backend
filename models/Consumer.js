@@ -4,5 +4,6 @@ const ConsumerSchema = new mongoose.Schema({
     Address: { type: String },
     createdAt: { type: Date, default: Date.now },
     mobile_number:String,
+    password:String,
 });
 module.exports = mongoose.model('User', ConsumerSchema);
