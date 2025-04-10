@@ -32,6 +32,22 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// Get orders by consumer ID
+router.get("/consumer/:id", async (req, res) => {
+  try {
+    const orders = await Order.find({ consumerId: req.params.id })
+      .populate("products.productId")
+      .populate("consumerId", "name")
+      .populate("vendorId", "shopName");
+
+    res.status(200).json({ data: orders });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 // Create new order
 router.post("/", async (req, res) => {
   try {
