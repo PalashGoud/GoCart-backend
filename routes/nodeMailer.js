@@ -16,7 +16,7 @@ router.post('/send-otp-mail', async (req, res) => {
   const otp = Math.floor(100000 + Math.random() * 900000);
 
   const mailOptions = {
-    from: 'your-email@gmail.com',
+    from: 'palashgoud84@gmail.com',
     to,
     subject,
     html: `<div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
