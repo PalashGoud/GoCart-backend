@@ -1,12 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Consumer = require("../models/Consumer");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = "yourSecretKey123"; // Replace with environment variable in production
-
-// ✅ Get all consumers
 router.get("/", async (req, res) => {
   try {
     const consumer = await Consumer.find();
@@ -16,7 +11,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ✅ Get single consumer by ID
+
 router.get("/:id", async (req, res) => {
   try {
     const consumer = await Consumer.findById(req.params.id);
@@ -29,24 +24,10 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// ✅ Register a new consumer with hashed password
+
 router.post("/", async (req, res) => {
   try {
-    const { name, Address, mobile_number, password } = req.body;
-
-    const existing = await Consumer.findOne({ mobile_number });
-    if (existing) {
-      return res.status(400).json({ message: "Mobile number already exists" });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const consumer = new Consumer({
-      name,
-      Address,
-      mobile_number,
-      password: hashedPassword,
-    });
-
+    const consumer = new Consumer(req.body);
     const newConsumer = await consumer.save();
     res.status(201).json({ data: newConsumer });
   } catch (err) {
@@ -55,46 +36,31 @@ router.post("/", async (req, res) => {
   }
 });
 
-// ✅ Login with JWT token
 router.post("/login", async (req, res) => {
-  const { mobile_number, password } = req.body;
+  const { mobile_number, password } = req.body; 
   try {
-    const consumer = await Consumer.findOne({ mobile_number });
-    if (!consumer) {
-      return res.status(401).json({ message: "Invalid Mobile Number" });
+    const consumer = await Consumer.findOne({ mobile_number});
+    if (!consumer){
+      res.status(401).send("Invalid Mobile Number")
     }
-
-    const isMatch = await bcrypt.compare(password, consumer.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: "Invalid Password" });
+    
+    if(consumer.password != password){
+      res.status(401).send("Invalid Password")
     }
-
-    const token = jwt.sign({ consumerId: consumer._id }, JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
-    res.status(200).json({
-      message: "Login successful",
-      data: {
-        _id: consumer._id,
-        name: consumer.name,
-        mobile_number: consumer.mobile_number,
-        token: token,
-      },
-    });
+    res.status(200).json({ message:"Login successful", data: consumer});
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
   }
 });
 
-// ✅ Update consumer by ID
+
+
 router.put("/:id", async (req, res) => {
   try {
     const updatedConsumer = await Consumer.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
     );
 
     if (!updatedConsumer) {
@@ -108,10 +74,11 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// ✅ Delete consumer by ID
+
 router.delete("/:id", async (req, res) => {
   try {
     const deletedConsumer = await Consumer.findByIdAndDelete(req.params.id);
+    
     if (!deletedConsumer) {
       return res.status(404).json({ message: "Consumer not found" });
     }
