@@ -20,6 +20,7 @@ app.use('/products',product)
 app.use('/orders',order)
 app.use('/transportbookings',transportbooking)
 app.use('/payment',payment),
+app.use('/', require('./routes/nodeMailer'))
 
 
 
