@@ -1,10 +1,10 @@
 const express = require("express");
-const router = express.Router();
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const router = express.Router();
 const Consumer = require("../models/Consumer");
 
-const JWT_SECRET = "your_jwt_secret_key"; // Store securely in env
+const JWT_SECRET = "palash_go_cart"; 
 
 router.get("/", async (req, res) => {
   try {
@@ -42,12 +42,11 @@ router.post("/login", async (req, res) => {
   try {
     const consumer = await Consumer.findOne({ mobile_number });
     if (!consumer) return res.status(401).send("Invalid Mobile Number");
-
+    // Compare password with hashed password
     const isMatch = await bcrypt.compare(password, consumer.password);
     if (!isMatch) return res.status(401).send("Invalid Password");
-
+    // Generate JWT token
     const token = jwt.sign({ id: consumer._id }, JWT_SECRET, { expiresIn: "2h" });
-
     res.status(200).json({
       message: "Login successful",
       data: {
