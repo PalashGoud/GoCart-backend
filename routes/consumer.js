@@ -27,10 +27,12 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const salt = await bcrypt.genSalt(5)
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const consumer = new Consumer({ ...req.body, password: hashedPassword });
-    const newConsumer = await consumer.save();
-    res.status(201).json({ data: newConsumer });
+   await consumer.save();
+   const token =   jwt.sign(consumer.email, JWT_SECRET)
+    res.status(201).json({ data: consumer,  token:token});
   } catch (err) {
     console.log(err);
     res.status(500).send("Server error");
@@ -46,7 +48,7 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, consumer.password);
     if (!isMatch) return res.status(401).send("Invalid Password");
     // Generate JWT token
-    const token = jwt.sign({ id: consumer._id }, JWT_SECRET, { expiresIn: "2h" });
+    const token = await jwt.sign({ id: consumer._id }, JWT_SECRET, { expiresIn: "2h" });
     res.status(200).json({
       message: "Login successful",
       data: {
