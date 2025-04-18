@@ -30,8 +30,12 @@ router.post("/", async (req, res) => {
     const salt = await bcrypt.genSalt(5)
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const consumer = new Consumer({ ...req.body, password: hashedPassword });
-   await consumer.save();
+    console.log(hashedPassword)
+    console.log(consumer)
+    
+    await consumer.save();
    const token =   jwt.sign(consumer.email, JWT_SECRET)
+   console.log(token)
     res.status(201).json({ data: consumer,  token:token});
   } catch (err) {
     console.log(err);
